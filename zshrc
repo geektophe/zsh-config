@@ -18,6 +18,7 @@ source $HOME/.zsh/lib/git.zsh
 source $HOME/.zsh/lib/goto.zsh
 
 
+
 ###############################################################################
 #
 # COMPLETION
@@ -31,6 +32,16 @@ zstyle ':completion:*:warnings' format '%BSorry, no matches for: %d%b'
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
                              /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+
+# Loads dm
+DM=$(whence -p dm)
+
+if [[ -n "$DM" ]]; then
+	autoload bashcompinit
+	bashcompinit
+	eval "$($DM init -)"
+	unset DM
+fi
 
 
 # Creates a completion cache. Very useful for time consuming commands completion.
