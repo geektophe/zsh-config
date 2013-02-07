@@ -105,29 +105,36 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 
 # setup key accordingly
-[[ -n "${key[Home]}"    ]] && bindkey "${key[Home]}"   beginning-of-line
-[[ -n "${key[End]}"     ]] && bindkey "${key[End]}"    end-of-line
-[[ -n "${key[Insert]}"  ]] && bindkey "${key[Insert]}" overwrite-mode
-[[ -n "${key[Delete]}"  ]] && bindkey "${key[Delete]}" delete-char
-[[ -n "${key[Up]}"      ]] && bindkey "${key[Up]}"     up-line-or-beginning-search
-[[ -n "${key[Down]}"    ]] && bindkey "${key[Down]}"   down-line-or-beginning-search
-[[ -n "${key[Left]}"    ]] && bindkey "${key[Left]}"   backward-char
-[[ -n "${key[Right]}"   ]] && bindkey "${key[Right]}"  forward-char
+[[ -n "${key[Home]}"   ]] && bindkey "${key[Home]}"   beginning-of-line
+[[ -n "${key[End]}"    ]] && bindkey "${key[End]}"    end-of-line
+[[ -n "${key[Insert]}" ]] && bindkey "${key[Insert]}" overwrite-mode
+[[ -n "${key[Delete]}" ]] && bindkey "${key[Delete]}" delete-char
+[[ -n "${key[Up]}"     ]] && bindkey "${key[Up]}"     up-line-or-beginning-search
+[[ -n "${key[Down]}"   ]] && bindkey "${key[Down]}"   down-line-or-beginning-search
+[[ -n "${key[Left]}"   ]] && bindkey "${key[Left]}"   backward-char
+[[ -n "${key[Right]}"  ]] && bindkey "${key[Right]}"  forward-char
 
-bindkey '^R' history-incremental-pattern-search-backward
+bindkey -M viins '^R' history-incremental-pattern-search-backward
+bindkey -M vicmd '^R' history-incremental-pattern-search-backward
 
-# Finally, make sure the terminal is in application mode, when zle is
-# active. Only then are the values from $terminfo valid.
+# by default: export WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
+# we take out the slash, period, angle brackets, dash here.
+#export WORDCHARS='*?_[]~=&;!#$%^(){}'
 
-function zle-line-init () {
-    echoti smkx
-}
-function zle-line-finish () {
-    echoti rmkx
-}
+bindkey -M viins '^[[1;5D' vi-backward-word
+bindkey -M vicmd '^[[1;5D' vi-backward-word
+bindkey -M viins '^[[1;5C' vi-forward-word
+bindkey -M vicmd '^[[1;5C' vi-forward-word
 
-zle -N zle-line-init
-zle -N zle-line-finish
+# make zsh/terminfo work for terms with application and cursor modes
+case "$TERM" in
+    xterm*)
+        zle-line-init() { echoti smkx }
+        zle-line-finish() { echoti rmkx }
+        zle -N zle-line-init
+        zle -N zle-line-finish
+    ;;
+esac
 
 
 ###############################################################################
