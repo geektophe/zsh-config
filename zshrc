@@ -176,7 +176,7 @@ unsetopt correctall
 # Promt sessings.
 
 case $TERM in
-	xterm*|urxvt*)
+	xterm*|urxvt*|rxvt-unicode*|screen)
 		setopt prompt_subst
 		THEME=agnoster
 		source $HOME/.zsh/themes/$THEME.zsh ;;
@@ -200,6 +200,9 @@ alias grep='grep --color=auto'
 alias mv='mv -i'
 alias cp='cp -i'
 alias rm='rm -i'
+alias t='task'
+alias tl='task long'
+alias tc='task calendar'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
