@@ -176,7 +176,7 @@ unsetopt correctall
 # Promt sessings.
 
 case $TERM in
-	xterm*|urxvt*)
+	xterm*|urxvt*|rxvt-unicode-256color)
 		setopt prompt_subst
 		THEME=agnoster
 		source $HOME/.zsh/themes/$THEME.zsh ;;
@@ -206,3 +206,21 @@ alias rm='rm -i'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 alias vmie7='rdesktop -g 1280x800 vmie7 -d daily -u c.simon'
+
+
+###############################################################################
+#
+# FUNCTIONS
+#
+###############################################################################
+
+function astreinte {
+	BASE_PATH="$HOME/Dropbox/Documents/Astreintes"
+	FILENAME="$BASE_PATH/Astreintes $(date +%Y-%m).ods"
+	TEMPLATE="$BASE_PATH/Astreintes Template.ods"
+
+	if [ ! -f $FILENAME ]; then
+		cp "$TEMPLATE" "$FILENAME"
+	fi
+	libreoffice --calc "$FILENAME"
+}
