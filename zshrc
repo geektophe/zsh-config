@@ -217,3 +217,21 @@ alias vmie9='rdesktop -g 1280x800 vmie9.corp.dailymotion.com -d daily -u c.simon
 
 export MYSALT_LOCAL_USER=$LOGNAME
 export MYSALT_REMOTE_USER=chriss
+
+
+###############################################################################
+#
+# FUNCTIONS
+#
+###############################################################################
+
+function astreinte {
+	BASE_PATH="$HOME/Dropbox/Documents/Astreintes"
+	FILENAME="$BASE_PATH/Astreintes $(date +%Y-%m).ods"
+	TEMPLATE="$BASE_PATH/Astreintes Template.ods"
+
+	if [ ! -f $FILENAME ]; then
+		cp "$TEMPLATE" "$FILENAME"
+	fi
+	libreoffice --calc "$FILENAME"
+}
