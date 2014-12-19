@@ -29,6 +29,8 @@ export PATH=$HOME/bin:$HOME/conf/dm/bin:$PATH
 source $HOME/.zsh/lib/git.zsh
 # Goto funttions
 source $HOME/.zsh/lib/goto.zsh
+# Jira functions
+source $HOME/.zsh/lib/jira.zsh
 
 
 ###############################################################################
@@ -203,9 +205,15 @@ alias rm='rm -i'
 alias t='task'
 alias tl='task long'
 alias tc='task calendar'
+alias less='less -r'
+alias tmux='TERM=screen-256color tmux -2'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-alias vmie7='rdesktop -g 1280x800 vmie7 -d daily -u c.simon'
+alias vmie7='rdesktop -g 1280x800 vmie7.corp.dailymotion.com -d daily -u c.simon'
+alias vmie9='rdesktop -g 1280x800 vmie9.corp.dailymotion.com -d daily -u c.simon'
+
+export MYSALT_LOCAL_USER=$LOGNAME
+export MYSALT_REMOTE_USER=chriss

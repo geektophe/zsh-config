@@ -32,6 +32,7 @@ BRANCH='\uE0A0'
 GEAR='\u2699'
 CHECKX='\u2717'
 LIGHT='\u26A1'
+FQDN=$(hostname -f)
 
 # Begin a segment
 # Takes two arguments, background and foreground. Both can be omitted,
@@ -101,7 +102,11 @@ prompt_git() {
 # Dir: current working directory
 
 prompt_dir() {
-	prompt_segment blue black '%~'
+	if [[ ${FQDN} =~ \.dev\. ]] || [[ ${FQDN} =~ \.local ]]; then
+		prompt_segment green black '%~'
+	else
+		prompt_segment blue black '%~'
+	fi
 }
 
 prompt_date() {
@@ -130,7 +135,11 @@ prompt_shell() {
 		prompt_segment yellow black
 		echo -n '#'
 	else
-		prompt_segment blue black
+		if [[ ${FQDN} =~ \.dev\. ]] || [[ ${FQDN} =~ \.local ]]; then
+			prompt_segment green black
+		else
+			prompt_segment blue black
+		fi
 		echo -n '$'
 	fi
 }
