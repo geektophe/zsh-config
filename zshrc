@@ -15,7 +15,6 @@
 fpath=($fpath $HOME/.zsh/completion)
 export EDITOR=/usr/bin/vim
 export GREP_COLOR=31
-export GREP_OPTIONS="--exclude=.svn/* --exclude=.git/*"
 export PATH=$HOME/bin:$HOME/conf/dm/bin:$PATH
 
 
@@ -217,6 +216,7 @@ alias vmie9='rdesktop -g 1280x800 vmie9.corp.dailymotion.com -d daily -u c.simon
 
 export MYSALT_LOCAL_USER=$LOGNAME
 export MYSALT_REMOTE_USER=chriss
+export MYSALT_SAFE=1
 
 
 ###############################################################################
