@@ -83,6 +83,7 @@ zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#)*=36=31"
 #
 ###############################################################################
 
+stty -ixon
 bindkey -v
 
 # create a zkbd compatible hash;
