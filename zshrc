@@ -76,6 +76,8 @@ zmodload zsh/complist
 setopt extendedglob
 zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#)*=36=31"
 
+setopt nobeep
+
 
 ###############################################################################
 #
