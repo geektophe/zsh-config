@@ -83,7 +83,9 @@ zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#)*=36=31"
 
 setopt nobeep
 
-source /home/christophe/.zsh/completions/kubectl
+if [[ -f $HOME/.zsh/completions/kubectl ]]; then
+	source $HOME/.zsh/completions/kubectl
+fi
 
 
 ###############################################################################
@@ -243,9 +245,11 @@ fi
 #
 ###############################################################################
 
-export GPG_TTY="$(tty)"
-export SSH_AUTH_SOCK=${HOME}/.gnupg/S.gpg-agent.ssh
-gpgconf --launch gpg-agent
+if which gpgconf &>/dev/null; then
+	export GPG_TTY="$(tty)"
+	export SSH_AUTH_SOCK=${HOME}/.gnupg/S.gpg-agent.ssh
+	gpgconf --launch gpg-agent
+fi
 
 
 ###############################################################################
