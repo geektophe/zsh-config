@@ -13,9 +13,15 @@
 ###############################################################################
 
 fpath=($fpath $HOME/.zsh/completion)
-export EDITOR=/usr/bin/vim
+export EDITOR=vim
+export LESS=-R
+export PAGER=less
 export GREP_COLOR=31
-export PATH=$HOME/bin:$HOME/conf/dm/bin:$PATH
+export PATH=$HOME/bin:$HOME/git/dm/bin:$PATH
+export DMSALT_BATCH=50
+export DMSALT_SAFE=1
+export VAULT_ADDR=https://vault.dm.gg:8200
+export LANG=fr_FR.UTF-8
 
 
 ###############################################################################
@@ -56,7 +62,6 @@ setopt auto_menu # show completion menu on succesive tab press
 setopt complete_in_word
 setopt always_to_end
 
-
 # Ignore completion functions for commands you don’t have.
 zstyle ':completion:*:functions' ignored-patterns '_*'
 
@@ -77,6 +82,8 @@ setopt extendedglob
 zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#)*=36=31"
 
 setopt nobeep
+
+source /home/christophe/.zsh/completions/kubectl
 
 
 ###############################################################################
@@ -197,10 +204,6 @@ esac
 #
 ###############################################################################
 
-alias ls='ls --color=auto'
-alias ll='ls --color=auto -lh'
-alias lll='ls --color=auto -lh | less'
-alias grep='grep --color=auto'
 alias mv='mv -i'
 alias cp='cp -i'
 alias rm='rm -i'
@@ -209,17 +212,40 @@ alias tl='task long'
 alias tc='task calendar'
 alias less='less -r'
 alias tmux='TERM=screen-256color tmux -2'
+alias fileshare='smbclient -U c.simon -W office //fileshare-fr.corp.dailymotion.com/users'
+alias master='git checkout master'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-alias vmie7='rdesktop -g 1280x800 vmie7.corp.dailymotion.com -d daily -u c.simon'
-alias vmie9='rdesktop -g 1280x800 vmie9.corp.dailymotion.com -d daily -u c.simon'
-
 export MYSALT_LOCAL_USER=$LOGNAME
 export MYSALT_REMOTE_USER=chriss
 export MYSALT_SAFE=1
+
+# OS specific aliases
+os_aliases=$HOME/.zsh/lib/aliases.$(uname -s).zsh
+
+if [[ -f $os_aliases ]]; then
+	source $os_aliases
+fi
+
+local_aliases=$HOME/.zsh/lib/aliases.local.zsh
+
+if [[ -f $local_aliases ]]; then
+	source $local_aliases
+fi
+
+
+###############################################################################
+#
+# GPG agent setting
+#
+###############################################################################
+
+export GPG_TTY="$(tty)"
+export SSH_AUTH_SOCK=${HOME}/.gnupg/S.gpg-agent.ssh
+gpgconf --launch gpg-agent
 
 
 ###############################################################################
@@ -229,12 +255,5 @@ export MYSALT_SAFE=1
 ###############################################################################
 
 function astreinte {
-	BASE_PATH="$HOME/Dropbox/Documents/Astreintes"
-	FILENAME="$BASE_PATH/Astreintes $(date +%Y-%m).ods"
-	TEMPLATE="$BASE_PATH/Astreintes Template.ods"
-
-	if [ ! -f $FILENAME ]; then
-		cp "$TEMPLATE" "$FILENAME"
-	fi
-	libreoffice --calc "$FILENAME"
+	vim ~/Documents/Astreinte/astreintes.csv
 }

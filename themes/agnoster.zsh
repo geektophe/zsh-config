@@ -32,7 +32,7 @@ BRANCH='\uE0A0'
 GEAR='\u2699'
 CHECKX='\u2717'
 LIGHT='\u26A1'
-FQDN=$(hostname -f)
+FQDN=$(hostname)
 
 # Begin a segment
 # Takes two arguments, background and foreground. Both can be omitted,
@@ -104,6 +104,8 @@ prompt_git() {
 prompt_dir() {
 	if [[ ${FQDN} =~ \.dev\. ]] || [[ ${FQDN} =~ \.local ]]; then
 		prompt_segment green black '%~'
+	elif [[ ${FQDN} =~ (baldr|freyr) ]] ; then
+		prompt_segment magenta black '%~'
 	else
 		prompt_segment blue black '%~'
 	fi
@@ -137,6 +139,8 @@ prompt_shell() {
 	else
 		if [[ ${FQDN} =~ \.dev\. ]] || [[ ${FQDN} =~ \.local ]]; then
 			prompt_segment green black
+		elif [[ ${FQDN} =~ (baldr|freyr) ]] ; then
+			prompt_segment magenta black
 		else
 			prompt_segment blue black
 		fi

@@ -7,28 +7,30 @@ function _goto-folder {
 
 	if [[ -d $FOLDER ]]; then
 		cd $FOLDER
-		git pull
+		if git branch --no-color --list | grep -q '^\* master$'; then
+		  git pull --rebase
+		fi
 	fi
 }
 
 function goto-dnsmaster {
-	_goto-folder $HOME/conf/dnsmaster/conf/zones/public
+	_goto-folder $HOME/git/dnsmaster/conf/zones/public
 }
 
 function goto-bcfg2 {
-	_goto-folder $HOME/conf/bcfg2
+	_goto-folder $HOME/git/bcfg2
 }
 
 function goto-nagios {
-	_goto-folder $HOME/conf/nagios
+	_goto-folder $HOME/git/nagios
 }
 
 function goto-dontpanic {
-	_goto-folder $HOME/conf/dontpanic
+	_goto-folder $HOME/git/dontpanic
 }
 
 function goto-dm {
-	_goto-folder $HOME/conf/dm
+	_goto-folder $HOME/git/dm
 }
 
 function goto-awesome {
@@ -36,21 +38,25 @@ function goto-awesome {
 }
 
 function goto-dhcp {
-	_goto-folder $HOME/conf/dhcp
+	_goto-folder $HOME/git/dhcp
 }
 
 function goto-shinken {
-	_goto-folder $HOME/conf/shinken
+	_goto-folder $HOME/git/shinken
 }
 
 function goto-salt {
-	_goto-folder $HOME/conf/salt
+	_goto-folder $HOME/git/salt/salt
+}
+
+function goto-saltprivate {
+	_goto-folder $HOME/git/salt-private
 }
 
 function goto-pkg {
-	cd $HOME/conf/pkg/git
+	cd $HOME/git/pkg/git
 }
 
 function goto-fred {
-	_goto-folder $HOME/conf/fred-config
+	_goto-folder $HOME/git/fred-config
 }
