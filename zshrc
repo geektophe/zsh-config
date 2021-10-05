@@ -13,11 +13,17 @@
 ###############################################################################
 
 fpath=($fpath $HOME/.zsh/completion)
-export EDITOR=vim
+if which nvim &>/dev/null; then
+	export EDITOR=nvim
+else
+	export EDITOR=vim
+fi
 export LESS=-R
 export PAGER=less
-export GREP_COLOR=31
-export PATH=$HOME/bin:$HOME/git/dm/bin:$PATH
+export PATH=$HOME/git/dm/bin:$PATH
+if [[ ! $PATH =~ '\.local/bin' ]]; then
+	export PATH=$HOME/.local/bin:$PATH
+fi
 export DMSALT_BATCH=50
 export DMSALT_SAFE=1
 export VAULT_ADDR=https://vault.dm.gg:8200
@@ -30,13 +36,17 @@ export LANG=fr_FR.UTF-8
 #
 ###############################################################################
 
-# Git functions
-source $HOME/.zsh/lib/git.zsh
 # Goto funttions
 source $HOME/.zsh/lib/goto.zsh
 # Jira functions
 source $HOME/.zsh/lib/jira.zsh
 
+
+###############################################################################
+#
+# GIT INTEGRATION
+#
+###############################################################################
 
 ###############################################################################
 #
@@ -53,8 +63,8 @@ zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 
 # Creates a completion cache. Very useful for time consuming commands completion.
-zstyle ':completion:*' use-cache off
-#zstyle ':completion:*' cache-path ~/.zsh_cache
+#zstyle ':completion:*' use-cache off
+zstyle ':completion:*' cache-path ~/.zsh_cache
 
 unsetopt menu_complete # do not autoselect the first completion entry
 unsetopt flowcontrol
@@ -189,8 +199,14 @@ unsetopt correctall
 # Promt sessings.
 
 case $TERM in
-	xterm*|urxvt*|rxvt-unicode*|screen)
-		setopt prompt_subst
+	xterm*|urxvt*|rxvt-unicode*|screen|st*)
+                autoload -Uz vcs_info
+                # precmd_vcs_info() { vcs_info }
+                # precmd_functions+=( precmd_vcs_info )
+                precmd() { vcs_info }
+                setopt prompt_subst
+                zstyle ':vcs_info:git:*' check-for-changes true
+                zstyle ':vcs_info:git:*' formats '%b;%c;%u'
 		THEME=agnoster
 		source $HOME/.zsh/themes/$THEME.zsh ;;
 	*)
@@ -214,8 +230,9 @@ alias tl='task long'
 alias tc='task calendar'
 alias less='less -r'
 alias tmux='TERM=screen-256color tmux -2'
-alias fileshare='smbclient -U c.simon -W office //fileshare-fr.corp.dailymotion.com/users'
 alias master='git checkout master'
+alias cal="cal -m"
+alias m="git stash && git m && git pr && git stash pop"
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert

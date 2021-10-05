@@ -82,20 +82,16 @@ prompt_context() {
 # Git: branch/detached head, dirty status
 
 prompt_git() {
-	local ref dirty
-
-	if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
-		ZSH_THEME_GIT_PROMPT_DIRTY='±'
-		dirty=$(parse_git_dirty)
-		ref=$(git symbolic-ref HEAD 2> /dev/null) || ref="➦ $(git show-ref --head -s --abbrev |head -n1 2> /dev/null)"
-
-		if [[ -n $dirty ]]; then
+	typeset _vcs_info str_array
+	local _vcs_info=(${(s/;/)vcs_info_msg_0_})
+	if [ -n "$_vcs_info[1]" ]; then
+		# vcs_info format: branch;staged;unstaged
+		if [ -n "$_vcs_info[2]" -o -n "$_vcs_info[3]" ]; then
 			prompt_segment yellow black
 		else
 			prompt_segment green black
 		fi
-
-		echo -n "${ref/refs\/heads\//${BRANCH} }$dirty"
+		echo -n " ${_vcs_info[1]}"
 	fi
 }
 

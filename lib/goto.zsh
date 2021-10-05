@@ -42,7 +42,7 @@ function goto-dhcp {
 }
 
 function goto-shinken {
-	_goto-folder $HOME/git/shinken
+	_goto-folder $HOME/git/shinken-conf
 }
 
 function goto-salt {
